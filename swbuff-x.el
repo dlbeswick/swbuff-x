@@ -195,7 +195,7 @@ I bind
 
   (control right)  to `swbuff-switch-to-next-buffer',
   (control left)   to `swbuff-switch-to-previous-buffer' and
-  (delete)		   to `swbuff-kill-this-buffer'
+  (delete)	   to `swbuff-kill-this-buffer'
 
 which I find useful for cycling through and culling superfluous buffers."
   (interactive)
@@ -204,16 +204,18 @@ which I find useful for cycling through and culling superfluous buffers."
 	(if (condition-case nil (kill-buffer dead-buffer))
 	(progn
 	  (if swbuff-initial-buffer
-		  (setq swbuff-buffer-list
-			(delq dead-buffer swbuff-buffer-list)
-			swbuff-initial-buffer-list
-			(delq dead-buffer swbuff-initial-buffer-list))
-		(swbuff-initialize))
+	      (setq swbuff-buffer-list (delq dead-buffer swbuff-buffer-list)
+		    swbuff-initial-buffer-list (delq dead-buffer swbuff-initial-buffer-list)
+		    )
+	    (swbuff-initialize))
 	  (if (car swbuff-buffer-list)
-		  (progn (switch-to-buffer (car swbuff-buffer-list))
-			 (swbuff-show-status-window))
-		(swbuff-discard-status-window)))
-	  (swbuff-discard-status-window))))
+	      (progn (switch-to-buffer (car swbuff-buffer-list))
+		     (setq swbuff-current-buffer (current-buffer))
+		     (swbuff-show-status-window))
+	    (swbuff-discard-status-window))
+	  ))
+	)
+  )
 
 ;; rename
 (defvar swbuff-display-timer nil)
